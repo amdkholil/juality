@@ -42,14 +42,7 @@ class Package(models.Model):
 class Transaction(models.Model):
     tenant = models.ForeignKey(
         'akun.Tenant', on_delete=models.CASCADE, related_name='transactions')
-    product = models.ForeignKey(
-        'inventori.Product', null=True, blank=True, on_delete=models.CASCADE, related_name='transactions')
-    package = models.ForeignKey(
-        'inventori.Package', null=True, blank=True, on_delete=models.CASCADE, related_name='transactions'
-    )
-    is_package = models.BooleanField(default=False)
-    quantity = models.IntegerField(default=0)
-    price = models.IntegerField(default=0)
+    total_price = models.IntegerField(default=0)
     type_transaction = models.CharField(max_length=20, choices=[
         ('in', 'In'),
         ('out', 'Out'),
@@ -69,3 +62,15 @@ class Transaction(models.Model):
 
     def __str__(self):
         return self.product.name
+
+
+class TransactinItem(models.Model):
+    tenant = models.ForeignKey(
+        'akun.Tenant', on_delete=models.CASCADE, related_name='transactions')
+    product = models.ForeignKey(
+        'inventori.Product', null=True, blank=True, on_delete=models.CASCADE, related_name='transactions')
+    package = models.ForeignKey(
+        'inventori.Package', null=True, blank=True, on_delete=models.CASCADE, related_name='transactions'
+    )
+    quantity = models.IntegerField(default=0)
+    price = models.IntegerField(default=0)
